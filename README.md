@@ -7,21 +7,26 @@ Simple HSL color picker. Super alpha, watch your step
 
 ## Passing settings
 You can pass all the inital color settings to colorfield
-`$('#your-canvas').colorField({
+
+```
+$('#your-canvas').colorField({
   color: {
     hue: 20,
     sat: 92,
     lum: 75
   }
-});`
+});
+```
 
 ## Attaching custom events and reading the color object
 Currently available:
+
 1. mousemove and mousewheel (after the plugin does its thing)
 2. click
 3. update (attaches to the $self.update function, runs on init, mousemove, and mousewheel)
 
-`$('#your-canvas').colorField({
+```
+$('#your-canvas').colorField({
   events: {
     click: function(color){
       console.log(color.hue);
@@ -32,7 +37,8 @@ Currently available:
       console.log('It all sounds pretty glamorous but it's business-as-usual at Kramerica');
     }
   }
-});`
+});
+```
 
 ## TODO
 1. Create a Style object with pre-formatted CSS strings based on picker actions
