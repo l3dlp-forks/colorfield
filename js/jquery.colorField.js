@@ -117,7 +117,7 @@ $.fn.extend({
     if ($self.settings.events.click){
       $self.on({
         click: function(){
-          $self.settings.events.click($self.settings.color, $self.settings.style);
+          $self.settings.events.click($self.settings.color);
         }
       });
     }
