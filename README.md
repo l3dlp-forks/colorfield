@@ -78,7 +78,7 @@ settings: {
 ## TODO
 1. Create a Style object with pre-formatted CSS strings based on picker actions
 2. Complete and test events in the Events object
-3. ~~ Activate / Deactivate API ~~ Refactor activeToggle
+3. --Activate / Deactivate API-- Refactor activeToggle
 4. Custom color ranges
 5. Make neat demos
 
