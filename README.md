@@ -59,7 +59,7 @@ settings: {
     mousemove: function(settings),
     update: function(settings)
   },
-  style: { *incomplete*
+  style: { //incomplete
     hsl: str,
     rgb: str,
     hex: str
