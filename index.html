@@ -16,13 +16,20 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.0/jquery.min.js"></script>
     <script src="js/jquery.colorfield.js"></script>
     <script type="text/javascript">
-      $('.canvas').colorField({
+      var canvas = $('.canvas').colorField({
         color: {
-          lum: 45
+          lum: 43
         },
         events: {
-          update: function(color){
-            $('.output').text('Hue:' + color.hue + ' Saturation:' + color.sat + ' Luminosity:' + color.lum);
+          update: function(settings){
+            $('.output').text('Hue:' + settings.color.hue + ' Saturation:' + settings.color.sat + ' Luminosity:' + settings.color.lum + ' Active:' + settings.active);
+          },
+          click: function(settings){
+            if (settings.active == true){
+              settings.active = false;
+            } else {
+              settings.active = true;
+            }
           }
         }
       });

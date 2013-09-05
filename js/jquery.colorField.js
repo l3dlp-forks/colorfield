@@ -30,7 +30,8 @@ $.fn.extend({
           mousemove: null,
           mousewheel: null,
           update: null
-        }
+        },
+        active: true
         
     }
 
@@ -41,55 +42,68 @@ $.fn.extend({
     // extend the default settings with user settings, deep copy
     $self.settings = {};
     $self.settings = $.extend(true, defaults, options);
-
+    // attach a activeToggle function that toggles active on and off
+    $self.settings.activeToggle = function(){
+      if ($self.settings.active == true){
+        $self.settings.active = false;
+      } else{
+        $self.settings.active = true;
+      }
+    }
     $self.on({
       mousemove: function(e){
 
-        // Get X and Y position of element
-        $self.x = e.pageX - $self.offset().left;
-        $self.y = e.pageY - $self.offset().top;
+        if ($self.settings.active == true){
+          // Get X and Y position of element
+          $self.x = e.pageX - $self.offset().left;
+          $self.y = e.pageY - $self.offset().top;
 
-        // Get height and width of element
-        $self.h = $self.height();
-        $self.w = $self.width();
+          // Get height and width of element
+          $self.h = $self.height();
+          $self.w = $self.width();
 
-        // Hue is determined by the mouse position along the X axis of the element.
-        // Figure out what percentage along the X axis the mouse is and * 360 to get the relative hue
-        // (0% left = hue 0, 100% left = hue 360)
-        $self.settings.color.hue = Math.round($self.x / $self.w * 360);
+          // Hue is determined by the mouse position along the X axis of the element.
+          // Figure out what percentage along the X axis the mouse is and * 360 to get the relative hue
+          // (0% left = hue 0, 100% left = hue 360)
+          $self.settings.color.hue = Math.round($self.x / $self.w * 360);
 
-        // Saturation is determined by the mouse position along the Y axis of element
-        // Saturtion is a 100 based value, so find the relative percentage of the mouse position
-        $self.settings.color.sat = Math.round(($self.y - $(window).scrollTop()) / $self.w * 100);
+          // Saturation is determined by the mouse position along the Y axis of element
+          // Saturtion is a 100 based value, so find the relative percentage of the mouse position
+          $self.settings.color.sat = Math.round(($self.y - $(window).scrollTop()) / $self.w * 100);
+
+          // If the user has passed any additional mousemove events, fire them
+          if ($self.settings.events.mousemove){
+            $self.settings.events.mousemove($self.settings);
+          }
+        }
 
         $self.update();
 
-        // If the user has passed any additional mousemove events, fire them
-        if ($self.settings.events.mousemove){
-          $self.settings.events.mousemove($self.settings.color);
-        }
       },
       mousewheel: function(e){
 
-        // Luminosity is based on the users scroll wheel movements
-        // If the user scroll up, increment the lum and vice versa
-       if(e.originalEvent.wheelDelta /120 > 0) {
-          if ($self.settings.color.lum < 100){
-            $self.settings.color.lum++;
+        if ($self.settings.active == true){
+          // Luminosity is based on the users scroll wheel movements
+          // If the user scroll up, increment the lum and vice versa
+         if(e.originalEvent.wheelDelta /120 > 0) {
+            if ($self.settings.color.lum < 100){
+              $self.settings.color.lum++;
+            }
+          }
+          else{
+            if($self.settings.color.lum > 0){
+              $self.settings.color.lum--;
+            }
+          }
+
+          // Any additional mousewheel events, fire
+          if ($self.settings.events.mousewheel){
+            $self.settings.events.mousewheel($self.settings);
           }
         }
-        else{
-          if($self.settings.color.lum > 0){
-            $self.settings.color.lum--;
-          }
-        }
+
         $self.update();
-
-        // Any additional mousewheel events, fire
-        if ($self.settings.events.mousewheel){
-          $self.settings.events.mousewheel($self.settings.color);
-        }
-
+        
         // Prevent browser scroll events 
         e.preventDefault();
       }
@@ -103,27 +117,27 @@ $.fn.extend({
      // A user passed Update function can be userful to bind events that fire on both mousemove and mousewheel
      // Would a beforeUpdate / afterUpdate be useful user events?
       if ($self.settings.events.update){
-        $self.settings.events.update($self.settings.color);
+        $self.settings.events.update($self.settings);
       }
     }
 
     $self.init = function(){
       // Set initial world
       $self.update();
-      return $self;
+      // return $self;
     }
 
     // Set up any additional user events
     if ($self.settings.events.click){
       $self.on({
         click: function(){
-          $self.settings.events.click($self.settings.color);
+          $self.settings.events.click($self.settings);
         }
       });
     }
 
     // Go
     $self.init();
-
+    return $self;
   }
 })
