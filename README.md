@@ -54,10 +54,10 @@ settings: {
     lum: int
   },
   events: {
-    click: function(settings),
-    mousewheel: function(settings),
-    mousemove: function(settings),
-    update: function(settings)
+    click: function(settings) {...},
+    mousewheel: function(settings) {...},
+    mousemove: function(settings) {...},
+    update: function(settings) {...}
   },
   style: { //incomplete
     hsl: str,
