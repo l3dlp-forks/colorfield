@@ -18,7 +18,7 @@ var canvas = $('#your-canvas').colorField({
 });
 ```
 
-## Attaching events and reading the color object
+## Attaching events
 Currently available:
 
 1. **mousemove** and **mousewheel** (after the plugin does its thing)
@@ -43,6 +43,36 @@ var canvas = $('.canvas').colorField({
     }
   }
 });
+```
+
+## the Settings object
+```
+settings: {
+  color: {
+    hue: int,
+    sat: int,
+    lum: int
+  },
+  events: {
+    click: function(settings),
+    mousewheel: function(settings),
+    mousemove: function(settings),
+    update: function(settings)
+  },
+  style: { *incomplete*
+    hsl: str,
+    rgb: str,
+    hex: str
+  },
+  active: bool,
+  activeToggle: function(){
+    if (settings.active == true){
+      settings.active = false;
+    } else {
+      settings.active = true;
+    }
+  }
+}
 ```
 
 ## TODO
