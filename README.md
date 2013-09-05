@@ -76,11 +76,12 @@ settings: {
 ```
 
 ## TODO
-1. Create a Style object with pre-formatted CSS strings based on picker actions
-2. Complete and test events in the Events object
-3. --Activate / Deactivate API-- Refactor activeToggle
-4. Custom color ranges
-5. Make neat demos
+* Create a Style object with pre-formatted CSS strings based on picker actions
+* Complete and test events in the Events object
+* ~~Activate / Deactivate API~~ Refactor activeToggle
+* Custom color ranges
+* Touch support
+* Make neat demos
 
 ## First Rodeo
 My first open souce jquery plugin. You know better? I want to hear it.
