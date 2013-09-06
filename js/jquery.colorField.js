@@ -180,8 +180,11 @@ $.fn.extend({
     // if jQuery Mobile is loaded, touch events
     if ( $.mobile ) {
       $self.on( 
-        "scrollstart", function( event ) {
-          alert('hi');
+        "scrollstart", function(e) {
+
+          console.log(e);
+          // Prevent browser scroll events 
+          e.preventDefault();
         } )      
     }
     // Go
