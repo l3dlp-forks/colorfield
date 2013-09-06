@@ -21,18 +21,19 @@
           lum: 43
         },
         events: {
-          update: function(settings){
-            $('.output').text('Hue:' + settings.color.hue + ' Saturation:' + settings.color.sat + ' Luminosity:' + settings.color.lum + ' Active:' + settings.active);
+          update: function(colorfield){
+            $('.output').text('Hue:' + colorfield.settings.color.hue + ' Saturation:' + colorfield.settings.color.sat + ' Luminosity:' + colorfield.settings.color.lum + ' Active:' + colorfield.settings.active);
           },
-          click: function(settings){
-            if (settings.active == true){
-              settings.active = false;
-            } else {
-              settings.active = true;
-            }
+          click: function(colorfield){
+            colorfield.toggleActive();
+            console.log('color object');
+            console.log(colorfield.settings.color);
+            console.log('preformatted style css styles');
+            console.log(colorfield.settings.style);
           }
         }
       });
+
     </script>
   </body>
 </html>

@@ -1,4 +1,4 @@
-# jQuery Color Field v0.00002
+# jQuery Color Field v0.00003
 
 Simple mouse-driven HSL color picker. Super alpha, getting messy in here
 
@@ -21,25 +21,51 @@ var canvas = $('#your-canvas').colorField({
 ## Attaching events
 Currently available:
 
-1. **mousemove** and **mousewheel** (after the plugin does its thing)
+1. **mousemove**
+2. **mousewheel**
 2. **click**
 3. **update** (attaches to the $self.update function, runs on init, mousemove, and mousewheel)
 
 ```
-var canvas = $('.canvas').colorField({
+var canvas = $('#your-canvas').colorField({
   color: {
     lum: 43
   },
   events: {
-    update: function(settings){
-      $('.output').text('Hue:' + settings.color.hue + ' Saturation:' + settings.color.sat + ' Luminosity:' + settings.color.lum + ' Active:' + settings.active);
+    update: function(colorfield){
+      $('.output').text('Hue:' + colorfield.settings.color.hue + ' Saturation:' + colorfield.settings.color.sat + ' Luminosity:' + colorfield.settings.color.lum + ' Active:' + colorfield.settings.active);
     },
-    click: function(settings){
-      if (settings.active == true){
-        settings.active = false;
-      } else {
-        settings.active = true;
-      }
+    click: function(colorfield){
+      colorfield.toggleActive();
+      console.log('color object');
+      console.log(colorfield.settings.color);
+      console.log('preformatted style css styles');
+      console.log(colorfield.settings.style);
+    }
+  }
+});
+```
+
+## Interacting with Colorfield
+You can change the active state of Colorfield by changing the value of settings.active
+
+The following renders a disabled Colorfield
+```
+var canvas = $('#you-canvas').colorField({
+  events: {
+    update: function(colorfield){
+      colorfield.settings.active = false
+    }
+  }
+});
+```
+
+You can toggle the state of active like this:
+```
+var canvas = $('#your-canvas').colorField({
+  events: {
+    click: function(colorfield){
+      colorfield.toggleActive();
     }
   }
 });
@@ -51,7 +77,9 @@ settings: {
   color: {
     hue: int,
     sat: int,
-    lum: int
+    lum: int,
+    rgb: [r,g,b],
+    hex: [r,g,b]
   },
   events: {
     click: function(settings) {...},
@@ -59,26 +87,19 @@ settings: {
     mousemove: function(settings) {...},
     update: function(settings) {...}
   },
-  style: { //incomplete
-    hsl: str,
-    rgb: str,
-    hex: str
+  style: {
+    hsl: str, // hsl(h,s%,l%)
+    rgb: str, // rgb(r,g,b)
+    hex: str // #rgb
   },
   active: bool,
-  activeToggle: function(){
-    if (settings.active == true){
-      settings.active = false;
-    } else {
-      settings.active = true;
-    }
-  }
 }
 ```
 
 ## TODO
-* Create a Style object with pre-formatted CSS strings based on picker actions
-* Complete and test events in the Events object
-* ~~Activate / Deactivate API~~ Refactor activeToggle
+* ~~Create a Style object with pre-formatted CSS strings based on picker actions~~
+* ~~Complete and test events in the Events object~~
+* ~~Activate / Deactivate API~~
 * Custom color ranges
 * Touch support
 * Make neat demos
