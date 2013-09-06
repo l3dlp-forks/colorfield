@@ -178,9 +178,12 @@ $.fn.extend({
     }
 
     // if jQuery Mobile is loaded, touch events
-    // if ( $.mobile ) {
-      
-    // }
+    if ( $.mobile ) {
+      $self.on( 
+        "scrollstart", function( event ) {
+          alert('hi');
+        } )      
+    }
     // Go
     $self.init();
     return $self;
