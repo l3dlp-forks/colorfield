@@ -18,6 +18,16 @@ var canvas = $('#your-canvas').colorField({
 });
 ```
 
+You can pass a custom color range to colofield that limits the hue spectrum
+Currently you can pass an array with two values defining the range of hue (0 - 360).
+** Note: This is not a gradation but defining what part of the spectrum to use. **
+
+```
+var canvas = $('#your-canvas').colorField({
+  range: [72, 150]
+});
+```
+
 ## Attaching events
 Currently available:
 
@@ -81,18 +91,19 @@ settings: {
     rgb: [r,g,b],
     hex: [r,g,b]
   },
+  range: null,
   events: {
-    click: function(settings) {...},
-    mousewheel: function(settings) {...},
-    mousemove: function(settings) {...},
-    update: function(settings) {...}
+    click: function(colorfield) {...},
+    mousewheel: function(colorfield) {...},
+    mousemove: function(colorfield) {...},
+    update: function(colorfield) {...}
   },
   style: {
     hsl: str, // hsl(h,s%,l%)
     rgb: str, // rgb(r,g,b)
     hex: str // #rgb
   },
-  active: bool,
+  active: bool
 }
 ```
 
@@ -100,7 +111,7 @@ settings: {
 * ~~Create a Style object with pre-formatted CSS strings based on picker actions~~
 * ~~Complete and test events in the Events object~~
 * ~~Activate / Deactivate API~~
-* Custom color ranges
+* ~~Custom color ranges~~
 * Touch support
 * Make neat demos
 

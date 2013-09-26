@@ -3,8 +3,8 @@
 // http://romanek.us
 
 $.pluginName = {
-     id: 'colorField'
-    ,version: '0.1'
+     id: 'colorField',
+     version: '0.1'
 };
 
 $.fn.extend({
@@ -17,6 +17,7 @@ $.fn.extend({
           sat: 0,
           lum: 50
         },
+        range: null,
         style:{},
         events: {
           click: null,
@@ -39,7 +40,7 @@ $.fn.extend({
     $self.on({
       mousemove: function(e){
 
-        if ($self.settings.active == true){
+        if ($self.settings.active == true) {
           // Get X and Y position of element
           $self.x = e.pageX - $self.offset().left;
           $self.y = e.pageY - $self.offset().top;
@@ -51,15 +52,31 @@ $.fn.extend({
           // Hue is determined by the mouse position along the X axis of the element.
           // Figure out what percentage along the X axis the mouse is and * 360 to get the relative hue
           // (0% left = hue 0, 100% left = hue 360)
-          $self.settings.color.hue = Math.round($self.x / $self.w * 360);
+          if ($self.settings.range.length) {
+            // This will limit the range of the color field 
+            // to be within the range, relative to X axis
+            // It does not blend two colors
+
+            diff = Math.abs($self.settings.range[0] - $self.settings.range[1]);
+            y = Math.round($self.x / $self.w * diff);
+            if ($self.settings.range[1] > $self.settings.range[0]) {
+              $self.settings.color.hue = $self.settings.range[0] + y;
+            } else {
+              $self.settings.color.hue = $self.settings.range[0] - y;
+            }
+            
+          } else {
+            $self.settings.color.hue = Math.round($self.x / $self.w * 360);
+          }
+          
 
           // Saturation is determined by the mouse position along the Y axis of element
           // Saturtion is a 100 based value, so find the relative percentage of the mouse position
           $self.settings.color.sat = Math.round(($self.y - $(window).scrollTop()) / $self.w * 100);
 
           // If the user has passed any additional mousemove events, fire them
-          if ($self.settings.events.mousemove){
-            $.proxy( $self.settings.events.click($self), $self );
+          if ($self.settings.events.mousemove) {
+            $.proxy( $self.settings.events.click($self), $self);
           }
         }
 
@@ -68,22 +85,21 @@ $.fn.extend({
       },
       mousewheel: function(e){
 
-        if ($self.settings.active == true){
+        if ($self.settings.active == true) {
           // Luminosity is based on the users scroll wheel movements
           // If the user scroll up, increment the lum and vice versa
-         if(e.originalEvent.wheelDelta /120 > 0) {
-            if ($self.settings.color.lum < 100){
+         if (e.originalEvent.wheelDelta /120 > 0) {
+            if ($self.settings.color.lum < 100) {
               $self.settings.color.lum++;
             }
-          }
-          else{
+          } else {
             if($self.settings.color.lum > 0){
               $self.settings.color.lum--;
             }
           }
 
           // Any additional mousewheel events, fire
-          if ($self.settings.events.mousewheel){
+          if ($self.settings.events.mousewheel) {
             $.proxy( $self.settings.events.mousewheel($self), $self );
           }
         }
@@ -112,27 +128,27 @@ $.fn.extend({
 
      // A user passed Update function can be userful to bind events that fire on both mousemove and mousewheel
      // Would a beforeUpdate / afterUpdate be useful user events?
-      if ($self.settings.events.update){
+      if ($self.settings.events.update) {
         $.proxy( $self.settings.events.update($self), $self );
       }
     }
 
     $self.toggleActive = function(){
-      if ($self.settings.active == true){
+      if ($self.settings.active == true) {
         $self.settings.active = false;
-      } else{
+      } else {
         $self.settings.active = true;
       }
     }
 
-    $self.toRGB = function (h, s, l){
+    $self.toRGB = function (h, s, l) {
       // HSL to RGB
       // nabbed from http://stackoverflow.com/questions/2353211/hsl-to-rgb-color-conversion
       var r, g, b;
 
-      if(s == 0){
+      if(s == 0) {
         r = g = b = l; // achromatic
-      }else{
+      } else {
         function hue2rgb(p, q, t){
           if(t < 0) t += 1;
           if(t > 1) t -= 1;
@@ -169,14 +185,18 @@ $.fn.extend({
     }
 
     // Set up any additional user events
-    if ($self.settings.events.click){
+    if ($self.settings.events.click) {
       $self.on({
         click: function(){
-          $.proxy( $self.settings.events.click($self), $self );
+          $.proxy( $self.settings.events.click($self), $self);
         }
       });
     }
 
+    // if jQuery Mobile is loaded, touch events
+    // if ( $.mobile ) {
+      
+    // }
     // Go
     $self.init();
     return $self;

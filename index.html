@@ -14,12 +14,14 @@
   <body class="canvas">
   <div class="output"></div>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.0/jquery.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.js"></script>
     <script src="js/jquery.colorfield.js"></script>
     <script type="text/javascript">
       var canvas = $('.canvas').colorField({
         color: {
           lum: 43
         },
+        range: [100, 200],
         events: {
           update: function(colorfield){
             $('.output').text('Hue:' + colorfield.settings.color.hue + ' Saturation:' + colorfield.settings.color.sat + ' Luminosity:' + colorfield.settings.color.lum + ' Active:' + colorfield.settings.active);
