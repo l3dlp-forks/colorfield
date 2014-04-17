@@ -1,43 +1,67 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<html>
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>jQuery ColorField Demo</title>
+    <title>jQuery ColorField App Demo</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
+    <link href='http://fonts.googleapis.com/css?family=Lekton:400,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="css/style.css">
   </head>
-  <body class="canvas">
-  <div class="output"></div>
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.0/jquery.min.js"></script>
-  <script src="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.js"></script>
-  <script src="js/jquery.colorField.js"></script>
-  <script type="text/javascript">
-    var canvas = $('.canvas').colorField({
-      color: {
-        lum: 43
-      },
-      events: {
-        update: function(colorfield){
-          $('.output').text('Hue:' + colorfield.settings.color.hue + ' Saturation:' + colorfield.settings.color.sat + ' Luminosity:' + colorfield.settings.color.lum + ' Active:' + colorfield.settings.active);
-        },
-        click: function(colorfield){
-          colorfield.toggleActive();
-          console.log('color object');
-          console.log(colorfield.settings.color);
-          console.log('preformatted style css styles');
-          console.log(colorfield.settings.style);
-        }
-      }
-    });
-    if ($.mobile){
-      console.log('truest');
-    }
+  <body>
+    <div class="template swatch">
+      <div class="overlay"></div>
+    </div>
+    <div class="canvas"></div>
 
-  </script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="js/jquery.colorfield.js"></script>
+    <script type="text/javascript">
+
+      function App() {
+        var self = this;
+        var $canvas = $('.canvas');
+        var $template = $('.template');
+        var colorFieldSettings = {
+          events: {
+            update: function(colorfield) {
+              $(colorfield).find('.overlay').html('<p>' + colorfield.settings.style.rgb + '</p>');
+            },
+            click: function(colorfield) {
+              colorfield.toggleActive();
+              if (!colorfield.madeNewSwatch) {
+                colorfield.madeNewSwatch = true;
+                app.newSwatch();
+              }
+            }
+          }
+        };
+
+        self.init = function() {
+         self.newSwatch();
+        }
+
+        self.newSwatch = function() {
+          var $clone = $template.clone();
+          $clone.removeClass('template');
+          $clone.colorField(colorFieldSettings);
+          $canvas.append($clone);
+
+          var newWidth = 100 / $canvas.find('.swatch').length;
+          $canvas.find('.swatch').each(function() {
+            $(this).css('width', newWidth + '%');
+          });
+        }
+
+        self.init();
+        return self;
+      }
+
+      $(function() {
+        window.app = new App();
+      });
+      
+    </script>
   </body>
 </html>

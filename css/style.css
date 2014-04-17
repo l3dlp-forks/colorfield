@@ -1,7 +1,9 @@
 body,
-html {
-  font-family: Helvetica, sans-serif;
-  font-weight: 700;
+html,
+.canvas
+ {
+  font-family: 'Lekton', sans-serif;
+  /*font-weight: 700;*/
   height: 100%;
   color: #fff;
   min-height: 100%;
@@ -10,16 +12,41 @@ html {
   width: 100%;
 }
 
-.output
+.template
 {
-  height: 280px;
-  font-size: 5em;
-  width: 620px;
-  margin: auto;
+  opacity: 0;
+}
+
+.swatch
+{
+  -webkit-transition: width 0.2s ease;
+  transition: width 0.2s ease;
+
+  position: relative;
+  width: 0;
+  float: left;
+  height: 100%;
+  background: red;
+}
+
+p
+{
+  line-height:1.3em;
+}
+.overlay
+{
   text-align: center;
-  position: absolute;
-  top: 0; left: 0; bottom: 0; right: 0;
-  padding: 15px;
-  line-height: 0.9em;
-  letter-spacing: -3px;
+  position: relative;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  max-width: 130px;
+  letter-spacing: 3px;
+  font-size: 13px;
+  margin: auto;
+  border-radius: 2px;
+  background: rgba(0,0,0,0.8);
+  padding: 10px;
+  color: white;
 }
