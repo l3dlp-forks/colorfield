@@ -1,6 +1,6 @@
 // Stuart Romanek
 // Party Time, Excellent
-// http://romanek.us
+// http://romanek.us//
 
 $.pluginName = {
      id: 'colorField',
